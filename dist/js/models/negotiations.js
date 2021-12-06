@@ -9,7 +9,3 @@ export class Negotiations {
         return this.negotiations;
     }
 }
-/*
-    Array<Negotiation> = []; => Negotiation[] = [];
-    ReadonlyArray<Negotiation> => readonly Negotiation[]
-*/
