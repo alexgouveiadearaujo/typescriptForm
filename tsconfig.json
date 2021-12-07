@@ -5,6 +5,7 @@
         "noEmitOnError": true, 
         "noImplicitAny": true,
         "moduleResolution": "node",
+        "removeComments": true,
     },
     "include": [
         "app/**/*" 
