@@ -22,7 +22,11 @@ export class NegotiationController {
   }
 
   public addition(): void {
-    const negotiation = this.createNegotiation();
+    const negotiation = Negotiation.createFrom(
+      this.inputDate.value,
+      this.inputAmount.value,
+      this.inputValue.value
+    )
 
     if (!this.itsWorkingDay(negotiation.date)) {
       this.messageView.update("Negociações são aceitas, apenas em dias úteis.");
@@ -38,13 +42,6 @@ export class NegotiationController {
     return date.getDay() > DaysWeek.SUNDAY && date.getDay() < this.SARTUDAY;
   }
 
-  private createNegotiation(): Negotiation {
-    const exp = /-/g;
-    const date = new Date(this.inputDate.value.replace(exp, ","));
-    const amount = parseInt(this.inputAmount.value);
-    const value = parseFloat(this.inputValue.value);
-    return new Negotiation(date, amount, value);
-  }
   private clearForm(): void {
     this.inputDate.value = "";
     this.inputAmount.value = "";
