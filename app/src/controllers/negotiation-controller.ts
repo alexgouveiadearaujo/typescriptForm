@@ -1,3 +1,4 @@
+import { loginRuntime } from "../decorators/loginRuntime.js";
 import { DaysWeek } from "../enums/daysWeek.js";
 import { Negotiation } from "../models/negotiation.js";
 import { Negotiations } from "../models/negotiations.js";
@@ -9,22 +10,23 @@ export class NegotiationController {
   private inputAmount: HTMLInputElement;
   private inputValue: HTMLInputElement;
   private negotiations = new Negotiations();
-  private negotiationsView = new NegotiationsView("#negotiationsView" , true);
-  private messageView = new MessageView("#messageView" );
+  private negotiationsView = new NegotiationsView("#negotiationsView", true);
+  private messageView = new MessageView("#messageView");
 
   constructor() {
     this.inputDate = <HTMLInputElement>document.querySelector("#date");
-    this.inputAmount = document.querySelector("#amount")  as HTMLInputElement;
+    this.inputAmount = document.querySelector("#amount") as HTMLInputElement;
     this.inputValue = document.querySelector("#value") as HTMLInputElement;
     this.negotiationsView.update(this.negotiations);
   }
 
+  @loginRuntime()
   public addition(): void {
     const negotiation = Negotiation.createFrom(
       this.inputDate.value,
       this.inputAmount.value,
       this.inputValue.value
-    )
+    );
 
     if (!this.itsWorkingDay(negotiation.date)) {
       this.messageView.update("Negociações são aceitas, apenas em dias úteis.");

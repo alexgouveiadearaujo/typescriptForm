@@ -1,3 +1,5 @@
+import { loginRuntime } from "../decorators/loginRuntime.js";
+
 export abstract class View<T> {
   protected element: HTMLElement;
   private escape = false;
@@ -15,6 +17,7 @@ export abstract class View<T> {
 
   protected abstract template(model: T): string;
 
+  @loginRuntime(true)
   public update(model: T): void {
     let template = this.template(model);
     if (this.escape) {
