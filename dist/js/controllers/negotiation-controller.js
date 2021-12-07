@@ -6,10 +6,8 @@ import { NegotiationsView } from "../views/negotiations-view.js";
 export class NegotiationController {
     constructor() {
         this.negotiations = new Negotiations();
-        this.negotiationsView = new NegotiationsView("#negotiationsView");
+        this.negotiationsView = new NegotiationsView("#negotiationsView", true);
         this.messageView = new MessageView("#messageView");
-        this.SARTUDAY = 6;
-        this.SUNDAY = 0;
         this.inputDate = document.querySelector("#date");
         this.inputAmount = document.querySelector("#amount");
         this.inputValue = document.querySelector("#value");
@@ -26,7 +24,7 @@ export class NegotiationController {
         this.updateView();
     }
     itsWorkingDay(date) {
-        return date.getDay() > DaysWeek.SUNDAY && date.getDay() < this.SARTUDAY;
+        return date.getDay() > DaysWeek.SUNDAY && date.getDay() < DaysWeek.SARTUDAY;
     }
     clearForm() {
         this.inputDate.value = "";

@@ -9,10 +9,8 @@ export class NegotiationController {
   private inputAmount: HTMLInputElement;
   private inputValue: HTMLInputElement;
   private negotiations = new Negotiations();
-  private negotiationsView = new NegotiationsView("#negotiationsView");
-  private messageView = new MessageView("#messageView");
-  private readonly SARTUDAY = 6;
-  private readonly SUNDAY = 0;
+  private negotiationsView = new NegotiationsView("#negotiationsView" , true);
+  private messageView = new MessageView("#messageView" );
 
   constructor() {
     this.inputDate = document.querySelector("#date");
@@ -39,7 +37,7 @@ export class NegotiationController {
   }
 
   private itsWorkingDay(date: Date) {
-    return date.getDay() > DaysWeek.SUNDAY && date.getDay() < this.SARTUDAY;
+    return date.getDay() > DaysWeek.SUNDAY && date.getDay() < DaysWeek.SARTUDAY;
   }
 
   private clearForm(): void {
