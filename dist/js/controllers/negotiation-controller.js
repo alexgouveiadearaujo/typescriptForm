@@ -1,3 +1,4 @@
+import { DaysWeek } from "../enums/daysWeek.js";
 import { Negotiation } from "../models/negotiation.js";
 import { Negotiations } from "../models/negotiations.js";
 import { MessageView } from "../views/message-view.js";
@@ -7,6 +8,8 @@ export class NegotiationController {
         this.negotiations = new Negotiations();
         this.negotiationsView = new NegotiationsView("#negotiationsView");
         this.messageView = new MessageView("#messageView");
+        this.SARTUDAY = 6;
+        this.SUNDAY = 0;
         this.inputDate = document.querySelector("#date");
         this.inputAmount = document.querySelector("#amount");
         this.inputValue = document.querySelector("#value");
@@ -14,9 +17,16 @@ export class NegotiationController {
     }
     addition() {
         const negotiation = this.createNegotiation();
+        if (!this.itsWorkingDay(negotiation.date)) {
+            this.messageView.update("Negociações são aceitas, apenas em dias úteis.");
+            return;
+        }
         this.negotiations.addition(negotiation);
         this.clearForm();
         this.updateView();
+    }
+    itsWorkingDay(date) {
+        return date.getDay() > DaysWeek.SUNDAY && date.getDay() < this.SARTUDAY;
     }
     createNegotiation() {
         const exp = /-/g;
