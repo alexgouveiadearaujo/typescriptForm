@@ -3,8 +3,14 @@ export abstract class View<T> {
   private escape = false;
 
   constructor(selector: string, escape?: boolean) {
-    this.element = document.querySelector(selector);
-    if(escape) this.escape = escape;
+    const element = document.querySelector(selector);
+    if (element) {
+      this.element = element as HTMLElement;
+    } else {
+      throw Error(`Seletor ${selector} não existe no DOM.`);
+    }
+    // this.element = document.querySelector(selector);
+    if (escape) this.escape = escape;
   }
 
   protected abstract template(model: T): string;
