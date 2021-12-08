@@ -10,6 +10,7 @@ import { loginRuntime } from "../decorators/loginRuntime.js";
 import { DaysWeek } from "../enums/daysWeek.js";
 import { Negotiation } from "../models/negotiation.js";
 import { Negotiations } from "../models/negotiations.js";
+import { NegotiationsService } from "../services/negotiations-service.js";
 import { MessageView } from "../views/message-view.js";
 import { NegotiationsView } from "../views/negotiations-view.js";
 export class NegotiationController {
@@ -17,6 +18,7 @@ export class NegotiationController {
         this.negotiations = new Negotiations();
         this.negotiationsView = new NegotiationsView("#negotiationsView");
         this.messageView = new MessageView("#messageView");
+        this.negotiationsService = new NegotiationsService();
         this.negotiationsView.update(this.negotiations);
     }
     addition() {
@@ -28,6 +30,14 @@ export class NegotiationController {
         this.negotiations.addition(negotiation);
         this.clearForm();
         this.updateView();
+    }
+    importData() {
+        this.negotiationsService.getNegotiations().then((negotiationsToday) => {
+            for (let negotiation of negotiationsToday) {
+                this.negotiations.addition(negotiation);
+            }
+            this.negotiationsView.update(this.negotiations);
+        });
     }
     itsWorkingDay(date) {
         return date.getDay() > DaysWeek.SUNDAY && date.getDay() < DaysWeek.SARTUDAY;
