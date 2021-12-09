@@ -1,9 +1,25 @@
-export class Negotiation {
+import { Printable } from "../utils/printable.js";
+
+export class Negotiation implements Printable{
   constructor(
     private _date: Date,
     public readonly amount: number,
     public readonly value: number
-  ) {}
+  ) {
+    
+  }
+
+  public static createFrom(
+    dateString: string,
+    amountString: string,
+    valueString: string
+  ): Negotiation {
+    const exp = /-/g;
+    const date = new Date(dateString.replace(exp, ","));
+    const amount = parseInt(amountString);
+    const value = parseFloat(valueString);
+    return new Negotiation(date, amount, value);
+  }
 
   get date(): Date {
     const date = new Date(this._date.getTime());
@@ -14,14 +30,11 @@ export class Negotiation {
     return this.amount * this.value;
   }
 
-  public static createFrom(dateString: string , amountString: string , valueString: string):Negotiation{
-    const exp = /-/g;
-    const date = new Date(dateString.replace(exp, ","));
-    const amount = parseInt(amountString);
-    const value = parseFloat(valueString);
-    return new Negotiation(date, amount, value);
+  public forText(): string {
+    return `
+      Data:${this.date},
+      Quantidade:${this.amount},
+      Valor:${this.value}.
+    `;
   }
-
 }
-
-
