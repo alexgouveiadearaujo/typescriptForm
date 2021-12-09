@@ -41,18 +41,29 @@ export class NegotiationController {
     }
 
     this.negotiations.addition(negotiation);
-    print(negotiation , this.negotiations)
+    print(negotiation, this.negotiations);
     this.clearForm();
     this.updateView();
   }
+
   public importData(): void {
-    this.negotiationsService.getNegotiations().then((negotiationsToday) => {
-      for (let negotiation of negotiationsToday) {
-        this.negotiations.addition(negotiation);
-      }
-      this.negotiationsView.update(this.negotiations);
-    });
+    this.negotiationsService
+      .getNegotiations()
+      .then((negotiationsToday) => {
+        return negotiationsToday.filter((negotiationToday) => {
+          return !this.negotiations
+            .list()
+            .some((negotiation) => negotiation.isEqual(negotiationToday));
+        });
+      })
+      .then((negotiationsToday) => {
+        for (let negotiation of negotiationsToday) {
+          this.negotiations.addition(negotiation);
+        }
+        this.negotiationsView.update(this.negotiations);
+      });
   }
+
   private itsWorkingDay(date: Date) {
     return date.getDay() > DaysWeek.SUNDAY && date.getDay() < DaysWeek.SARTUDAY;
   }

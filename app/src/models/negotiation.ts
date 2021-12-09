@@ -1,13 +1,11 @@
 import { Printable } from "../utils/printable.js";
 
-export class Negotiation implements Printable{
+export class Negotiation implements Printable {
   constructor(
     private _date: Date,
     public readonly amount: number,
     public readonly value: number
-  ) {
-    
-  }
+  ) {}
 
   public static createFrom(
     dateString: string,
@@ -36,5 +34,13 @@ export class Negotiation implements Printable{
       Quantidade:${this.amount},
       Valor:${this.value}.
     `;
+  }
+
+  public isEqual(negotiation: Negotiation): boolean {
+    return (
+      this.date.getDate() === negotiation.date.getDate() &&
+      this.date.getMonth() === negotiation.date.getMonth() &&
+      this.date.getFullYear() === negotiation.date.getFullYear()
+    );
   }
 }
